@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বদলি আবেদনকারী এমপিওভুক্ত শিক্ষকদের জন্য শূন্যপদের তালিকা</title>
+<meta name="description" content="বদলি আবেদনকারী এমপিওভুক্ত শিক্ষকদের জন্য জেলা, প্রতিষ্ঠান, বিষয় ও পদবি অনুযায়ী শূন্যপদের তালিকা অনুসন্ধান করুন।">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="ledger-texture" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="masthead__inner">
+    <div class="masthead__title-block">
+      <p class="masthead__eyebrow"><span class="eyebrow-dot"></span> বাংলাদেশ &middot; শিক্ষা তথ্য</p>
+      <h1 class="masthead__title">এমপিওভুক্ত শিক্ষকদের <em>বদলি সহায়িকা</em></h1>
+      <p class="masthead__subtitle">বদলি আবেদনকারীদের জন্য শূন্যপদের তালিকা ও দ্রুত অনুসন্ধান</p>
+    </div>
+  </div>
+  <div class="stat-strip" id="statStrip"><!-- filled by JS --></div>
+</header>
+
+<main class="wrap">
+
+  <section class="intro-row">
+    <div>
+      <p class="section-kicker">ডেটা এক্সপ্লোরার / DATA EXPLORER</p>
+      <h2>বদলির জন্য উপযুক্ত শূন্যপদ খুঁজুন</h2>
+      <p>জেলা, পদবি, বিষয় বা প্রতিষ্ঠানের ধরন দিয়ে ফলাফল সংকুচিত করুন।</p>
+    </div>
+    <button id="openFilters" class="filter-trigger" type="button" aria-expanded="false" aria-controls="filterDrawer">ফিল্টার খুলুন <span>☷</span></button>
+  </section>
+
+  <div class="notice" role="note">
+    <span class="notice__icon">!</span>
+    <p><strong>গুরুত্বপূর্ণ ঘোষণা</strong> — এই তালিকার তথ্য প্রাপ্ত স্প্রেডশিট/উৎস থেকে সংগৃহীত; উৎসটি স্বাধীনভাবে যাচাই করা হয়নি। নিয়োগ বা সিদ্ধান্তের আগে সংশ্লিষ্ট কর্তৃপক্ষের কাছ থেকে তথ্য নিশ্চিত করুন।</p>
+  </div>
+  <div class="load-error" id="loadError" role="alert" hidden></div>
+
+  <section class="quick-filters" aria-label="প্রধান ফিল্টার">
+    <div class="quick-filters__label"><p class="section-kicker">QUICK FILTERS</p><strong>দ্রুত খুঁজুন</strong></div>
+    <label class="field"><span>জেলা / District</span><select id="fDistrict"><option value="">সব জেলা</option></select></label>
+    <label class="field"><span>পদবি / Designation</span><select id="fDesignation"><option value="">সব</option></select></label>
+    <label class="field"><span>বিষয় / Subject</span><select id="fSubject"><option value="">সব বিষয়</option></select></label>
+  </section>
+
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+  <section class="filters filter-drawer" id="filterDrawer" aria-label="অনুসন্ধান ফিল্টার" aria-hidden="true">
+    <div class="filters__head">
+      <div><p class="section-kicker">FILTERS</p><h2>এন্ট্রি খুঁজুন</h2></div>
+      <div class="filters__actions">
+        <button id="clearFilters" class="btn-ghost" type="button">সব মুছুন</button>
+        <button id="closeFilters" class="drawer-close" type="button" aria-label="ফিল্টার বন্ধ করুন">×</button>
+      </div>
+    </div>
+    <div class="filters__grid">
+      <label class="field">
+        <span>জোন / Zone</span>
+        <select id="fZone"><option value="">সব</option></select>
+      </label>
+      <label class="field">
+        <span>উপজেলা / Upazila</span>
+        <select id="fUpazila"><option value="">সব</option></select>
+      </label>
+      <label class="field">
+        <span>প্রতিষ্ঠানের ধরন / Institute Type</span>
+        <select id="fInstType"><option value="">সব</option></select>
+      </label>
+      <label class="field">
+        <span>পদের শ্রেণি / Category</span>
+        <select id="fCategory"><option value="">সব</option></select>
+      </label>
+      <label class="field field--search">
+        <span>প্রতিষ্ঠানের নাম / Institute name</span>
+        <input id="fInstitute" type="text" placeholder="যেমন: COMILLA MAHILA COLLEGE" autocomplete="off">
+      </label>
+    </div>
+    <p class="filters__result" id="resultCount"></p>
+    <button id="applyFilters" class="filter-apply" type="button">ফলাফল দেখুন <span>→</span></button>
+  </section>
+
+  <section class="summary" aria-label="সারাংশ">
+    <div class="summary__card" id="cardSubject">
+      <h3><span class="idx">০১</span> বিষয় অনুযায়ী সারাংশ <small>by Subject</small></h3>
+      <ol class="rank-list" id="listSubject"></ol>
+    </div>
+    <div class="summary__card" id="cardCategory">
+      <h3><span class="idx">০২</span> পদের শ্রেণি অনুযায়ী সারাংশ <small>by Category</small></h3>
+      <ol class="rank-list" id="listCategory"></ol>
+    </div>
+    <div class="summary__card" id="cardCollege">
+      <h3><span class="idx">০৩</span> প্রতিষ্ঠান অনুযায়ী শীর্ষ তালিকা <small>Top Colleges</small></h3>
+      <ol class="rank-list" id="listCollege"></ol>
+    </div>
+  </section>
+
+  <section class="register" aria-label="বিস্তারিত তালিকা">
+    <div class="register__head">
+      <h2>রেজিস্টার এন্ট্রি <small id="registerCount"></small></h2>
+      <div class="register__pager">
+        <button id="prevPage" class="btn-ghost btn-ghost--sm">◂ আগের</button>
+        <span id="pageLabel">—</span>
+        <button id="nextPage" class="btn-ghost btn-ghost--sm">পরের ▸</button>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-no">নং</th>
+            <th>জোন</th>
+            <th>জেলা</th>
+            <th>উপজেলা</th>
+            <th>প্রতিষ্ঠানের ধরন</th>
+            <th>প্রতিষ্ঠান</th>
+            <th>শ্রেণি</th>
+            <th>পদবি</th>
+            <th>বিষয়</th>
+            <th class="col-num">শূন্যপদ</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>তথ্যসূত্র: প্রাপ্ত স্প্রেডশিট ডেটা · মোট এন্ট্রি: <span id="footTotal">—</span></p>
+    <p class="foot__disclaimer">উৎস যাচাই করা হয়নি — প্রকাশের আগে তথ্যের নির্ভুলতা সংশ্লিষ্ট কর্তৃপক্ষের সঙ্গে যাচাই করুন।</p>
+  </footer>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
