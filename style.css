@@ -464,6 +464,7 @@ body{background:#102a2a;}
 thead th{background:var(--moss);border-bottom:0;padding:.75rem .7rem;}.table-scroll{max-height:600px;}
 tbody td{padding:.65rem .7rem;border-bottom:1px solid #e5ece6;}tbody tr:nth-child(even){background:#f2f7f2;}tbody tr:hover{background:#e4f0e8;}
 .foot{color:#91b1a9;}.foot__disclaimer{color:#d8ad78;font-size:.7rem;margin-top:.3rem;}
+.github-star{display:inline-block;margin-top:.75rem;padding:.45rem .8rem;border:1px solid rgba(216,173,120,.45);border-radius:8px;color:#f0c989;text-decoration:none;font-size:.72rem;transition:background .15s,color .15s;}.github-star:hover{background:#f0c989;color:var(--ink);}
 @media (max-width:560px){.intro-row{align-items:flex-start;flex-direction:column;}.source-status{width:100%;}.notice{font-size:.75rem;}.masthead{padding-top:1.6rem;}}
 
 /* ---------------- Mobile-first layout ---------------- */
@@ -569,4 +570,17 @@ tbody td{padding:.62rem .55rem;}
   .rank-list li:nth-child(n+6){display:none;}
   .rank-list .rl-name,.rank-list .rl-count{font-size:.72rem;}
   .rank-list .rl-bar-track{height:4px;}
+}
+
+/* Keep the mobile header compact so the filters and results appear sooner. */
+@media (max-width:599px){
+  .masthead{padding:.85rem .85rem 0;}
+  .masthead__inner{padding-bottom:.9rem;}
+  .masthead__eyebrow{font-size:.54rem;margin-bottom:.45rem;}
+  .masthead__title{font-size:clamp(1.7rem,8.5vw,2.35rem);line-height:1.08;}
+  .masthead__subtitle{max-width:21rem;margin-top:.35rem;font-size:.72rem;line-height:1.35;}
+  .stat-strip .stat{padding:.62rem .6rem;}
+  .stat .stat__value{font-size:.82rem;}
+  .stat .stat__label{font-size:.56rem;margin-top:.08rem;}
+  .wrap{padding-top:1.2rem;}
 }
